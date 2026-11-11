@@ -2,7 +2,6 @@ package producer
 
 import (
 	"encoding/csv"
-	"fmt"
 	"os"
 )
 
@@ -22,11 +21,12 @@ func LoadRecipients(filename string, emailHolder chan Recipient) error {
 		return err
 	}
 	for _, r := range rec[1:] {
-		fmt.Println(r)
+		// fmt.Println(r)
 		emailHolder <- Recipient{r[0], r[1]}
 	}
 
 	defer f.Close()
+	defer close(emailHolder)
 
 	return nil
 }
